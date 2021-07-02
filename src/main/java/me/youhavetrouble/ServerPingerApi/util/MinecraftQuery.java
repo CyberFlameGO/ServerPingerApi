@@ -151,15 +151,14 @@ public class MinecraftQuery {
             socket.setSoTimeout(2000);
             sendPacket(socket, local, 0xFE, 0xFD, 0x09, 0x01, 0x01, 0x01, 0x01);
             final int challengeInteger;
-            {
-                receivePacket(socket, receiveData);
-                byte byte1 = -1;
-                int i = 0;
-                byte[] buffer = new byte[11];
-                for (int count = 5; (byte1 = receiveData[count++]) != 0; )
-                    buffer[i++] = byte1;
-                challengeInteger = Integer.parseInt(new String(buffer).trim());
-            }
+
+            receivePacket(socket, receiveData);
+            byte byte1 = -1;
+            int i = 0;
+            byte[] buffer = new byte[11];
+            for (int count = 5; (byte1 = receiveData[count++]) != 0; )
+                buffer[i++] = byte1;
+            challengeInteger = Integer.parseInt(new String(buffer).trim());
             sendPacket(socket, local, 0xFE, 0xFD, 0x00, 0x01, 0x01, 0x01, 0x01, challengeInteger >> 24, challengeInteger >> 16, challengeInteger >> 8, challengeInteger, 0x00, 0x00, 0x00, 0x00);
 
             final int length = receivePacket(socket, receiveData).getLength();
@@ -238,7 +237,9 @@ public class MinecraftQuery {
      */
     private static String readString(byte[] array, AtomicInteger cursor) {
         final int startPosition = cursor.incrementAndGet();
-        for (; cursor.get() < array.length && array[cursor.get()] != 0; cursor.incrementAndGet()) ;
+        while (cursor.get() < array.length && array[cursor.get()] != 0)
+            cursor.incrementAndGet();
+
         return new String(Arrays.copyOfRange(array, startPosition, cursor.get()));
     }
 }
