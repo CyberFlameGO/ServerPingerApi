@@ -60,31 +60,34 @@ public class MinecraftServerPing {
 
         try {
             query.sendQuery();
-            HashMap<String, Object> info = new HashMap<>();
+        } catch (IOException e) {
+            return PingError.SERVER_OFFLINE.getResponse();
+        }
+
+        HashMap<String, Object> info = new HashMap<>();
 
             HashMap<String, Object> host = new HashMap<>();
             host.put("ip", query.getValues().get("hostip"));
             host.put("port", query.getValues().get("hostport"));
             info.put("host", host);
 
-            HashMap<String, Object> server = new HashMap<>();
-            server.put("version", query.getValues().get("version"));
-            server.put("world_name", query.getValues().get("map"));
-            server.put("gametype", query.getValues().get("gametype"));
-            server.put("game_id", query.getValues().get("game_id"));
-            String pluginsField = query.getValues().get("plugins");
-            if (pluginsField == null)
-                pluginsField = "Unknown";
-            server.put("mod_name", parseServerModName(pluginsField));
+        HashMap<String, Object> server = new HashMap<>();
+        server.put("version", query.getValues().get("version"));
+        server.put("motd", query.getValues().get("hostname"));
+        server.put("world_name", query.getValues().get("map"));
+        server.put("gametype", query.getValues().get("gametype"));
+        server.put("game_id", query.getValues().get("game_id"));
+        String pluginsField = query.getValues().get("plugins");
+        if (pluginsField == null)
+            pluginsField = "Unknown";
+        server.put("mod_name", parseServerModName(pluginsField));
 
-            server.put("plugins", parseServerMods(pluginsField));
+        server.put("plugins", parseServerMods(pluginsField));
 
-            info.put("server", server);
-            return ResponseEntity.ok(new JSONObject(info).toString());
+        server.put("players", query.getOnlineUsernames());
 
-        } catch (IOException e) {
-            return PingError.SERVER_OFFLINE.getResponse();
-        }
+        info.put("server", server);
+        return ResponseEntity.ok(new JSONObject(info).toString());
 
 
     }
