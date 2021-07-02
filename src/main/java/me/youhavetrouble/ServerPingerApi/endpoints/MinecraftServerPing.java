@@ -66,10 +66,10 @@ public class MinecraftServerPing {
 
         HashMap<String, Object> info = new HashMap<>();
 
-            HashMap<String, Object> host = new HashMap<>();
-            host.put("ip", query.getValues().get("hostip"));
-            host.put("port", query.getValues().get("hostport"));
-            info.put("host", host);
+        HashMap<String, Object> host = new HashMap<>();
+        host.put("ip", query.getValues().get("hostip"));
+        host.put("port", Integer.parseInt(query.getValues().get("hostport")));
+        info.put("host", host);
 
         HashMap<String, Object> server = new HashMap<>();
         server.put("version", query.getValues().get("version"));
