@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,32 +33,32 @@ public class ServerPingerApiApplication {
 	}
 
 	@Async("threadPoolTaskExecutor")
-	@GetMapping(value = "/source/v1", produces = "application/json")
-	public ResponseEntity<String> sourceServer(@RequestParam(value = "ip", defaultValue = "localhost") String ip) throws JSONException {
+	@GetMapping(value = "/source/v1/{ip}", produces = "application/json")
+	public ResponseEntity<String> sourceServer(@PathVariable String ip) throws JSONException {
 		return SourceServerPing.handleRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
-	@GetMapping(value = "/source/v1/players", produces = "application/json")
-	public ResponseEntity<String> sourceServerPlayers(@RequestParam(value = "ip", defaultValue = "localhost") String ip) throws JSONException {
+	@GetMapping(value = "/source/v1/players/{ip}", produces = "application/json")
+	public ResponseEntity<String> sourceServerPlayers(@PathVariable String ip) throws JSONException {
 		return SourceServerPing.handlePlayerRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
-	@GetMapping(value = "/source/v1/info", produces = "application/json")
-	public ResponseEntity<String> sourceServerInfo(@RequestParam(value = "ip", defaultValue = "localhost") String ip) throws JSONException {
+	@GetMapping(value = "/source/v1/info/{ip}", produces = "application/json")
+	public ResponseEntity<String> sourceServerInfo(@PathVariable String ip) throws JSONException {
 		return SourceServerPing.handleInfoRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
-	@GetMapping(value = "/minecraft/v1", produces = "application/json")
-	public ResponseEntity<String> minecraftServer(@RequestParam(value = "ip", defaultValue = "localhost") String ip) throws JSONException {
+	@GetMapping(value = "/minecraft/v1/{ip}", produces = "application/json")
+	public ResponseEntity<String> minecraftServer(@PathVariable String ip) throws JSONException {
 		return MinecraftServerPing.handleRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
-	@GetMapping(value = "/minecraft/v1/query", produces = "application/json")
-	public ResponseEntity<String> minecraftServerQuery(@RequestParam(value = "ip", defaultValue = "localhost") String ip) throws JSONException {
+	@GetMapping(value = "/minecraft/v1/query/{ip}", produces = "application/json")
+	public ResponseEntity<String> minecraftServerQuery(@PathVariable String ip) throws JSONException {
 		return MinecraftServerPing.handleQueryRequest(ip);
 	}
 
