@@ -34,25 +34,25 @@ public class ServerPingerApiApplication {
 
 	@Async("threadPoolTaskExecutor")
 	@GetMapping(value = "/source/v1/{ip}", produces = "application/json")
-	public ResponseEntity<String> sourceServer(@PathVariable String ip) throws JSONException {
+	public ResponseEntity<String> sourceServer(@PathVariable String ip) {
 		return SourceServerPing.handleRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
 	@GetMapping(value = "/source/v1/players/{ip}", produces = "application/json")
-	public ResponseEntity<String> sourceServerPlayers(@PathVariable String ip) throws JSONException {
+	public ResponseEntity<String> sourceServerPlayers(@PathVariable String ip) {
 		return SourceServerPing.handlePlayerRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
 	@GetMapping(value = "/source/v1/info/{ip}", produces = "application/json")
-	public ResponseEntity<String> sourceServerInfo(@PathVariable String ip) throws JSONException {
+	public ResponseEntity<String> sourceServerInfo(@PathVariable String ip) {
 		return SourceServerPing.handleInfoRequest(ip);
 	}
 
 	@Async("threadPoolTaskExecutor")
 	@GetMapping(value = "/minecraft/v1/{ip}", produces = "application/json")
-	public ResponseEntity<String> minecraftServer(@PathVariable String ip) throws JSONException {
+	public ResponseEntity<String> minecraftServer(@PathVariable String ip) {
 		return MinecraftServerPing.handleRequest(ip);
 	}
 
